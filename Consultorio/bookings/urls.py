@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.urls import path
-from django.http import HttpResponse
+from .views import home_view, list_view, search_view, create_view
 
-def mi_vista(request):
-    return HttpResponse("<h3>Bienvenidos a la aplicacion de reservas!!!!</h3>")
+
 
 urlpatterns = [
-    path("", mi_vista)
+    path("", home_view),
+    path("list/", list_view),
+    path("buscar/<nombre_de_usuario>", search_view),
+    path("crear/<nombre_de_usuario>/<consultorio>", create_view)
 ]
