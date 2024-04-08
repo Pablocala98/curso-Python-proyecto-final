@@ -1,0 +1,19 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %} Detalle de Reserva {% endblock %}
+
+{% block content %}
+<section>
+    <h2>Detalle de Reserva</h2>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Reserva a nombre de: {{ reserva.nombre_de_usuario }}</h5>
+            <p class="card-text">Sala de la reserva: {{ reserva.consultorio }}</p>
+            <p class="card-text">Descripcion de la reserva: {{ reserva.descripcion }}</p>
+            <p class="card-text">Fecha y hora de la reserva: {{ reserva.fecha }} a las {{ reserva.hora }}</p>
+            <p class="card-text">Duración de la reserva: {{ reserva.duracion }} horas</p>
+        </div>
+    </div>
+    <a href="/bookings/list" class="btn btn-secondary">Volver al listado de reservas</a>
+</section>
+{% endblock %}

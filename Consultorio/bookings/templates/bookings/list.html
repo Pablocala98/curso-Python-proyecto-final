@@ -1,0 +1,43 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %} Listado de Reservas {% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4">Reservas</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre de Usuario</th>
+                    <th scope="col">Consultorio</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Duracion</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ reserva.nombre_de_usuario }}</td>
+                    <td>{{ reserva.consultorio }}</td>
+                    <td>{{ reserva.fecha | date:"Y-m-d" }}</td>
+                    <td>{{ reserva.hora | date:"H:i" }}</td>
+                    <td>{{ reserva.duracion }}</td>
+                    <td>
+                        <a href="/bookings/detail/{{ reserva.id }}" class="btn btn-primary btn-sm">Ver</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">No hay Reservas disponibles.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

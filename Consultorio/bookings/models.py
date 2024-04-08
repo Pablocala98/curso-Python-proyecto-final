@@ -1,21 +1,27 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
-#class Reserva:
-#    
-#   def __init__(self, nombre_de_usuario, consultorio):
-#        self.nombre_de_usuario = nombre_de_usuario
-#        self.consultorio = consultorio
-#
-#    def __str__(self) -> str:
-#        return f"Esta es una reserva a nombre de {self.nombre_de_usuario} para el consultorio {self.consultorio}"
-
-class Reserva(models.Model):
-    nombre_de_usuario = models.CharField(max_length = 50)
-    consultorio = models.CharField(max_length = 50)
-
-    def __str__(self) -> str:
+from django.db import models
     
-        return f"Esta es una reserva a nombre de {self.nombre_de_usuario} para el consultorio {self.consultorio}"
+class Consultorio(models.Model):
+    nombre = models.CharField(max_length=100)
+    disponible = models.BooleanField(default=True)
+    capacidad = models.IntegerField()
+    descripcion = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.nombre} - {'Disponible' if self.disponible else 'No Disponible'} - Capacidad: {self.capacidad}"
+    
+class Reserva(models.Model):
+    nombre_de_usuario = models.CharField(max_length=50)
+    consultorio = models.ForeignKey(Consultorio, on_delete=models.CASCADE, related_name='reservas')
+    fecha = models.DateField(default=timezone.now)
+    hora = models.TimeField(default=timezone.now)
+    duracion = models.IntegerField(default=1)
+    descripcion = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.nombre_de_usuario} - {self.consultorio.nombre} - {self.fecha}"
 
