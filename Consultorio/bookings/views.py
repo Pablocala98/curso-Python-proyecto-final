@@ -18,11 +18,6 @@ def search_view(request, nombre_de_usuario):
     contexto_dict = {'reservas': reservas_del_usuario}
     return render(request, "bookings/list.html", contexto_dict)
 
-def create_view(request, nombre_de_usuario, consultorio):
-#   reserva = Reserva("",nombre_de_usuario, consultorio) -- esta forma no se utiliza en django, se utiliza la de abajo
-    reserva = Reserva.objects.create(nombre_de_usuario = nombre_de_usuario,consultorio = consultorio)
-    return HttpResponse(f"He creado {reserva}")
-
 def detail_view(request, booking_id):
     reserva = Reserva.objects.get(id=booking_id)
     contexto_dict = {"reserva" : reserva}

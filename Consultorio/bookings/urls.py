@@ -9,5 +9,4 @@ urlpatterns = [
     path("detail/<booking_id>", detail_view ),
     path("list/", list_view, name= "bookings-list"),
     path("buscar/<nombre_de_usuario>", search_view),
-    path("crear/<nombre_de_usuario>/<consultorio>", create_view)
 ]
