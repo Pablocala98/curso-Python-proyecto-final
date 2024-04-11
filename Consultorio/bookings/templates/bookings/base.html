@@ -18,10 +18,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/bookings/list">Todas las Reservas</a>
+                    <a class="nav-link" href="{% url 'bookings-list' %}">Todas las Reservas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'bookings-list' %}">Todas las Reservas (Alternative button)</a>
+                    <a class="nav-link" href="{% url 'buscar-reserva-con-formulario' %}">Buscar por Usuario</a>
                 </li>
             </ul>
         </div>
