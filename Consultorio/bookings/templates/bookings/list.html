@@ -24,11 +24,11 @@
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ reserva.nombre_de_usuario }}</td>
                     <td>{{ reserva.consultorio }}</td>
-                    <td>{{ reserva.fecha | date:"Y-m-d" }}</td>
+                    <td>{{ reserva.fecha | date:"d-m-Y" }}</td>
                     <td>{{ reserva.hora | date:"H:i" }}</td>
                     <td>{{ reserva.duracion }}</td>
                     <td>
-                        <a href="/bookings/detail/{{ reserva.id }}" class="btn btn-primary btn-sm">Ver</a>
+                        <a href="/bookings/detail-booking/{{ reserva.id }}" class="btn btn-primary btn-sm">Ver</a>
                     </td>
                 </tr>
                 {% empty %}
