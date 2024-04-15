@@ -17,17 +17,38 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'bookings-list' %}">Todas las Reservas</a>
+                <!-- Dropdown para acciones de reservas -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Acciones de Reservas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="reservasDropdown">
+                        <a class="dropdown-item" href="{% url 'bookings-list' %}">Todas las Reservas</a>
+                        <a class="dropdown-item" href="{% url 'buscar-reserva-con-formulario' %}">Buscar por Usuario</a>
+                        <a class="dropdown-item" href="{% url 'crear-reserva-con-formulario' %}">Crear Reserva</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'buscar-reserva-con-formulario' %}">Buscar por Usuario</a>
+    
+                <!-- Dropdown para acciones del consultorio -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="consultorioDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Acciones del Consultorio
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="consultorioDropdown">
+                        <a class="dropdown-item" href="{% url 'consultorio-list' %}">Todos los Consultorios</a>
+                        <a class="dropdown-item" href="{% url 'consultorio-buscar-con-formulario' %}">Buscar por Consultorio</a>
+                        <a class="dropdown-item" href="{% url 'crear-consultorio-con-formulario' %}">Crear Consultorio</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'crear-reserva-con-formulario' %}">Crear Reserva</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'crear-consultorio-con-formulario' %}">Crear Consultorio</a>
+                <!-- Dropdown para acciones de Vistas Basadas en Clases -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkSala" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Consultorios (VBC)
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkSala">
+                        <a class="dropdown-item" href="">Todas las Salas</a>
+                        <a class="dropdown-item" href="">Crear Sala</a>
+                    </div>
                 </li>
             </ul>
         </div>

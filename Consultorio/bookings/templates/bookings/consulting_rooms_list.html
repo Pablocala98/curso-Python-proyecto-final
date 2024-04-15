@@ -1,0 +1,46 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %} Listado de Consultorios {% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4">Consultorios</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="{% url 'crear-consultorio-con-formulario' %}" class="btn btn-success">Crear Consultorio</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Disponible</th>
+                    <th scope="col">Capacidad</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for consultorio in consultorios %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ consultorio.nombre }}</td>
+                    <td>{{ consultorio.disponible }}</td>
+                    <td>{{ consultorio.capacidad }}</td>
+                    <td>{{ consultorio.descripcion }}</td>
+                    <td>
+                        <a href="{% url 'consultorio-update' consultorio.id %}" class="btn btn-primary btn-sm mr-2">Editar</a>
+                        <a href="{% url 'consultorio-delete' consultorio.id %}" class="btn btn-danger btn-sm mr-2">Eliminar</a>
+                        <a href="/bookings/detail-consulting-room/{{ consultorio.id }}" class="btn btn-primary btn-sm mr-2">Ver</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No hay consultorios disponibles.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
