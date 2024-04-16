@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Reserva, Consultorio
 from .forms import ConsultorioCreateForm, ReservaSearchForm, ReservaCreateForm, ConsultorioSearchForm
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
 # Create your views here.
@@ -76,8 +78,8 @@ def create_booking_with_form_view(request):
             return detail_booking_view(request,nueva_reserva.id)
 
 def consulting_room_list_view(request):
-    consultorios = Consultorio.objects.all() #con este Reserva.objects.all() nos trae todos los objetos reserva de la base de datos
-    contexto_dict = {'consultorio': consultorios}
+    consultorio = Consultorio.objects.all() #con este Reserva.objects.all() nos trae todos los objetos reserva de la base de datos
+    contexto_dict = {'consultorios': consultorio}
     return render(request, "bookings/consulting_rooms_list.html", contexto_dict)
 
 def consulting_room_delete_view(request, consulting_room_id):
@@ -129,5 +131,33 @@ def consulting_room_search_view(request):
         if form.is_valid():
             nombre = form.cleaned_data['nombre']
             consultorio = Consultorio.objects.filter(nombre = nombre).all()
-            contexto_dict = {'consultorio': consultorio}
+            contexto_dict = {'consultorios': consultorio}
             return render(request, "bookings/consulting_rooms_list.html", contexto_dict)
+        
+class ConsultorioListView(ListView):
+    model = Consultorio
+    template_name = "bookings/VBC/vbc-consultorio-list.html"
+    context_object_name = "consultorios"
+
+class ConsultorioDetailView(DetailView):
+    model = Consultorio
+    template_name = "bookings/VBC/vbc-consultorio-detail.html"
+    context_object_name = "consultorio"
+
+class ConsultorioCreateView(CreateView):
+    model = Consultorio
+    template_name = "bookings/VBC/vbc-consultorio-create.html"
+    fields = ['nombre', 'disponible', 'capacidad', 'descripcion']
+    success_url = reverse_lazy("vbc-consultorio-list")
+
+class ConsultorioDeleteView(DeleteView):
+    model = Consultorio
+    template_name = "bookings/VBC/vbc-consultorio-delete.html"
+    success_url = reverse_lazy("vbc-consultorio-list")
+
+class ConsultorioUpdateView(UpdateView):
+    model = Consultorio
+    template_name = "bookings/VBC/vbc-consultorio-update.html"
+    fields = ['nombre', 'disponible', 'capacidad', 'descripcion']
+    success_url = reverse_lazy("vbc-consultorio-list")
+    

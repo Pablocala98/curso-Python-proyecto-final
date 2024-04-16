@@ -1,0 +1,27 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Modificar Consultorio{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4">Editar Consultorio</h2>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        Datos del Consultorio
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'vbc-consultorio-update' consultorio.id %}">
+                            {% csrf_token %}  <!-- CSRF Token added here -->
+                            {{ form.as_p }}  
+                            <button type="crear" class="btn btn-primary">Actualizar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -13,7 +13,13 @@ from .views import (
     consulting_room_delete_view,
     delete_booking_view,
     consulting_room_update_view,
-    consulting_room_search_view)
+    consulting_room_search_view,
+    ConsultorioListView,
+    ConsultorioDetailView,
+    ConsultorioCreateView,
+    ConsultorioDeleteView,
+    ConsultorioUpdateView
+    )
 
 
 
@@ -31,4 +37,10 @@ urlpatterns = [
     path("delete/<booking_id>", delete_booking_view, name="booking-delete"),
     path("consultorio/update/<consulting_room_id>", consulting_room_update_view, name="consultorio-update"),
     path("buscar-consultorio-con-formulario", consulting_room_search_view, name="consultorio-buscar-con-formulario"),
+    # Vistas basadas en clases
+    path("consultorio/vbc/list", ConsultorioListView.as_view(), name="vbc-consultorio-list"),
+    path("consultorio/vbc/<int:pk>/detail", ConsultorioDetailView.as_view(), name="vbc-consultorio-detail"),
+    path("consultorio/vbc/create", ConsultorioCreateView.as_view(), name="vbc-consultorio-create"),
+    path("consultorio/vbc/<int:pk>/delete", ConsultorioDeleteView.as_view(), name="vbc-consultorio-delete"),
+    path("consultorio/vbc/<int:pk>/update", ConsultorioUpdateView.as_view(), name="vbc-consultorio-update")
 ]

@@ -24,4 +24,10 @@ class Reserva(models.Model):
 
     def __str__(self):
         return f"{self.nombre_de_usuario} - {self.consultorio.nombre} - {self.fecha}"
+    
+
+class Masajista(models.Model):
+    nombre = models.CharField(max_length=50)
+    apellido = models.CharField(max_length=50)
+    
 
