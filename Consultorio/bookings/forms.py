@@ -1,5 +1,5 @@
 from django import forms
-from .models import Consultorio, Reserva
+from .models import Consultorio, Reserva, Masajista
 
 
 
@@ -8,6 +8,9 @@ class ReservaSearchForm(forms.Form):
 
 class ConsultorioSearchForm(forms.Form):
     nombre = forms.CharField(max_length=50, required=True, label="Ingresar nombre de Consultorio")
+
+class MasajistaSearchForm(forms.Form):
+    nombre = forms.CharField(max_length=50, required=True, label="Ingresar nombre de Masajista")
 
 class ReservaCreateForm(forms.ModelForm):
     class Meta:
@@ -44,4 +47,15 @@ class ConsultorioCreateForm(forms.ModelForm):
             'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del consultorio'}),
             'capacidad': forms.NumberInput(attrs={'class': 'form-control', 'min': 1}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descripción del consultorio'}),
+        }
+
+class MasajistaCreateForm(forms.ModelForm):
+    class Meta:
+        model = Masajista
+        fields = ['nombre','apellido','documento','telefono']
+        labels = {
+            'nombre': 'Nombre del Masajista',
+            'apellido': 'Apellido',
+            'documento': 'Documento',
+            'telefono': 'Telefono',
         }

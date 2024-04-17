@@ -18,14 +18,21 @@ from .views import (
     ConsultorioDetailView,
     ConsultorioCreateView,
     ConsultorioDeleteView,
-    ConsultorioUpdateView
+    ConsultorioUpdateView,
+    therapist_list_view,
+    update_booking_view,
+    create_therapist_with_form_view,
+    detail_therapist_view,
+    update_therapist_view,
+    MasajistaDeleteView,
+    therapist_search_view
     )
 
 
 
 urlpatterns = [
     path("", home_view),
-    path("detail-booking/<booking_id>", detail_booking_view ),
+    path("detail-booking/<booking_id>", detail_booking_view, name="booking-detail"),
     path("list/", list_view, name= "bookings-list"),
     path("buscar/<nombre_de_usuario>", search_view),
     path("buscar-reserva-con-formulario", search_booking_with_form_view, name="buscar-reserva-con-formulario"),
@@ -37,10 +44,18 @@ urlpatterns = [
     path("delete/<booking_id>", delete_booking_view, name="booking-delete"),
     path("consultorio/update/<consulting_room_id>", consulting_room_update_view, name="consultorio-update"),
     path("buscar-consultorio-con-formulario", consulting_room_search_view, name="consultorio-buscar-con-formulario"),
+    path("masajista/list", therapist_list_view, name="masajista-list"),
+    path("update-booking/<booking_id>", update_booking_view, name="booking-update"),
+    path("masajista/create", create_therapist_with_form_view, name="masajista-create"),
     # Vistas basadas en clases
     path("consultorio/vbc/list", ConsultorioListView.as_view(), name="vbc-consultorio-list"),
     path("consultorio/vbc/<int:pk>/detail", ConsultorioDetailView.as_view(), name="vbc-consultorio-detail"),
     path("consultorio/vbc/create", ConsultorioCreateView.as_view(), name="vbc-consultorio-create"),
     path("consultorio/vbc/<int:pk>/delete", ConsultorioDeleteView.as_view(), name="vbc-consultorio-delete"),
-    path("consultorio/vbc/<int:pk>/update", ConsultorioUpdateView.as_view(), name="vbc-consultorio-update")
+    path("consultorio/vbc/<int:pk>/update", ConsultorioUpdateView.as_view(), name="vbc-consultorio-update"),
+    # Fin Vistas basadas en clases
+    path("masajista/detail/<therapist_id>", detail_therapist_view, name="masajista-detail"),
+    path("masajista/update/<therapist_id>", update_therapist_view, name="masajista-update"),
+    path("masajista/<int:pk>/delete", MasajistaDeleteView.as_view(), name="masajista-delete"),
+    path("buscar-masajista-con-formulario", therapist_search_view, name="masajista-search")
 ]

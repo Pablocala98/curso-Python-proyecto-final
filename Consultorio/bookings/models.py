@@ -29,5 +29,10 @@ class Reserva(models.Model):
 class Masajista(models.Model):
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
-    
+    documento = models.IntegerField(default=None)
+    telefono = models.IntegerField(default=None)
+
+    def __str__(self):
+        return f"{self.nombre} - {self.apellido} - {self.documento}"    
+
 

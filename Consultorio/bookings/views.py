@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Reserva, Consultorio
-from .forms import ConsultorioCreateForm, ReservaSearchForm, ReservaCreateForm, ConsultorioSearchForm
+from .models import Reserva, Consultorio, Masajista
+from .forms import ConsultorioCreateForm, ReservaSearchForm, ReservaCreateForm, ConsultorioSearchForm, MasajistaCreateForm, MasajistaSearchForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -93,11 +93,10 @@ def delete_booking_view(request, booking_id):
     return redirect("bookings-list")
 
 def consulting_room_update_view(request, consulting_room_id):
-
     consultorio_a_editar = Consultorio.objects.filter(id=consulting_room_id).first()
     if request.method == "GET":
         valores_iniciales = {
-            "nombre": consultorio_a_editar.nombre,              #argument error, no me aparece en azul
+            "nombre": consultorio_a_editar.nombre,
             "disponible": consultorio_a_editar.disponible,
             "capacidad": consultorio_a_editar.capacidad,
             "descripcion": consultorio_a_editar.descripcion
@@ -107,7 +106,7 @@ def consulting_room_update_view(request, consulting_room_id):
             "form_update" : formulario,
             "OBJETO": consultorio_a_editar  
             }
-        return render(request, "bookings/form-update.html", contexto_dict)
+        return render(request, "bookings/form-update-consulting-room.html", contexto_dict)
     elif request.method == "POST":
         form = ConsultorioCreateForm(request.POST)
         if form.is_valid():
@@ -133,12 +132,10 @@ def consulting_room_search_view(request):
             consultorio = Consultorio.objects.filter(nombre = nombre).all()
             contexto_dict = {'consultorios': consultorio}
             return render(request, "bookings/consulting_rooms_list.html", contexto_dict)
-        
 class ConsultorioListView(ListView):
     model = Consultorio
     template_name = "bookings/VBC/vbc-consultorio-list.html"
     context_object_name = "consultorios"
-
 class ConsultorioDetailView(DetailView):
     model = Consultorio
     template_name = "bookings/VBC/vbc-consultorio-detail.html"
@@ -160,4 +157,110 @@ class ConsultorioUpdateView(UpdateView):
     template_name = "bookings/VBC/vbc-consultorio-update.html"
     fields = ['nombre', 'disponible', 'capacidad', 'descripcion']
     success_url = reverse_lazy("vbc-consultorio-list")
-    
+
+def therapist_list_view(request):
+    masajista = Masajista.objects.all()
+    contexto = {'masajistas': masajista}
+    return render(request, "bookings/therapist-list.html", contexto)
+
+def update_booking_view(request, booking_id):
+    reserva_a_editar = Reserva.objects.filter(id=booking_id).first()
+    if request.method == "GET":
+        valores_iniciales = {
+            "nombre_de_usuario": reserva_a_editar.nombre_de_usuario,              #argument error, no me aparece en azul
+            "consultorio": reserva_a_editar.consultorio,
+            "fecha": reserva_a_editar.fecha,
+            "hora": reserva_a_editar.hora,
+            "duracion": reserva_a_editar.duracion,
+            "descripcion": reserva_a_editar.descripcion
+            }
+        formulario = ReservaCreateForm(initial=valores_iniciales)
+        contexto_dict = {
+            "form_update" : formulario,
+            "OBJETO": reserva_a_editar  
+            }
+        return render(request, "bookings/form-update-booking.html", contexto_dict)
+    elif request.method == "POST":
+        form = ReservaCreateForm(request.POST)
+        if form.is_valid():
+            nombre_de_usuario = form.cleaned_data['nombre_de_usuario']
+            consultorio = form.cleaned_data['consultorio']
+            fecha = form.cleaned_data['fecha']
+            hora = form.cleaned_data['hora']
+            duracion = form.cleaned_data['duracion']
+            descripcion = form.cleaned_data['descripcion']
+            reserva_a_editar.nombre_de_usuario = nombre_de_usuario
+            reserva_a_editar.consultorio = consultorio
+            reserva_a_editar.fecha = fecha
+            reserva_a_editar.hora = hora
+            reserva_a_editar.duracion = duracion
+            reserva_a_editar.descripcion = descripcion
+            reserva_a_editar.save()
+            return redirect("booking-detail", reserva_a_editar.id)
+
+def create_therapist_with_form_view(request):
+    if request.method == "GET":
+        form = MasajistaCreateForm()
+        contexto = {"masajista_create_form":form}
+        return render(request,"bookings/form-create-therapist.html", contexto)
+    elif request.method == "POST":
+        form = MasajistaCreateForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            apellido = form.cleaned_data['apellido']
+            documento = form.cleaned_data['documento']
+            telefono = form.cleaned_data['telefono']
+            nuevo_masajista = Masajista(nombre = nombre, apellido = apellido, documento = documento, telefono = telefono)
+            nuevo_masajista.save()
+            return detail_therapist_view(request,nuevo_masajista.id) #corregir el detail_consulting_room_view
+        
+def detail_therapist_view(request, therapist_id):
+    masajista = Masajista.objects.get(id=therapist_id)
+    contexto_dict = {"masajista" : masajista}
+    return render(request, "bookings/detail-therapist.html", contexto_dict)
+
+def update_therapist_view(request,therapist_id):
+    masajista_a_editar = Masajista.objects.filter(id=therapist_id).first()
+    if request.method == "GET":
+        valores_iniciales = {
+            "nombre": masajista_a_editar.nombre,              
+            "apellido": masajista_a_editar.apellido,
+            "documento": masajista_a_editar.documento,
+            "telefono": masajista_a_editar.telefono
+            }
+        formulario = MasajistaCreateForm(initial=valores_iniciales)
+        contexto_dict = {
+            "form_update" : formulario,
+            "OBJETO": masajista_a_editar  
+            }
+        return render(request, "bookings/form-update-therapist.html", contexto_dict)
+    elif request.method == "POST":
+        form = MasajistaCreateForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            apellido = form.cleaned_data['apellido']
+            documento = form.cleaned_data['documento']
+            telefono = form.cleaned_data['telefono']
+            masajista_a_editar.nombre = nombre
+            masajista_a_editar.apellido = apellido
+            masajista_a_editar.documento = documento
+            masajista_a_editar.telefono = telefono
+            masajista_a_editar.save()
+            return redirect("masajista-detail", masajista_a_editar.id)
+
+class MasajistaDeleteView(DeleteView):
+    model = Masajista
+    template_name = "bookings/therapist-delete.html"
+    success_url = reverse_lazy("masajista-list")
+
+def therapist_search_view(request):
+    if request.method == "GET":
+        form = MasajistaSearchForm()
+        return render(request,"bookings/form-search-therapist.html", context = {"search_form":form})
+    elif request.method == "POST":
+        form = MasajistaSearchForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            masajista = Masajista.objects.filter(nombre = nombre).all()
+            contexto_dict = {'masajistas': masajista}
+            return render(request, "bookings/therapist-list.html", contexto_dict)

@@ -47,7 +47,19 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkSala">
                         <a class="dropdown-item" href="{% url 'vbc-consultorio-list'%}">Todas las Salas</a>
+                        <a class="dropdown-item" href="{% url 'consultorio-buscar-con-formulario' %}">Buscar por Consultorio</a>
                         <a class="dropdown-item" href="{% url 'vbc-consultorio-create'%}">Crear Sala</a>
+                    </div>
+                </li>
+                <!-- Dropdown para Masajistas -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkSala" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Masajistas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkSala">
+                        <a class="dropdown-item" href="{% url 'masajista-list'%}">Todos los masajistas</a>
+                        <a class="dropdown-item" href="{% url 'masajista-search' %}">Buscar por Masajista</a>
+                        <a class="dropdown-item" href="{% url 'masajista-create' %}">Crear Masajista</a>
                     </div>
                 </li>
             </ul>

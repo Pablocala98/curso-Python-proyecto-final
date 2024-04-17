@@ -31,7 +31,7 @@
                     <td>{{ reserva.hora | date:"H:i" }}</td>
                     <td>{{ reserva.duracion }}</td>
                     <td>
-                        <a href="" class="btn btn-primary btn-sm">Editar</a>
+                        <a href="{% url 'booking-update' reserva.id%}" class="btn btn-primary btn-sm">Editar</a>
                         <a href="{% url 'booking-delete' reserva.id %}" class="btn btn-danger btn-sm">Eliminar</a>
                         <a href="/bookings/detail-booking/{{ reserva.id }}" class="btn btn-primary btn-sm">Ver</a>
                     </td>

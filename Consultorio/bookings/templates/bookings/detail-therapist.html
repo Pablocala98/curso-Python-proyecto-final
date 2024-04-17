@@ -1,0 +1,26 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Detalle del Masajista{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        Detalle del Masajista
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ masajista.nombre }} {{ masajista.apellido }}</h5>
+                        <p class="card-text">Documento: {{ masajista.documento }}</p>
+                        <p class="card-text">Teléfono: {{ masajista.telefono }}</p>
+                        <!-- Puedes agregar más detalles sobre el masajista si tienes más campos -->
+                    </div>
+                </div>
+                <a href="{% url 'masajista-list' %}" class="btn btn-secondary">Volver al listado de Masajistas</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
