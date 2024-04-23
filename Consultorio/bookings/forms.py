@@ -1,5 +1,6 @@
 from django import forms
 from .models import Consultorio, Reserva, Masajista
+from django.contrib.auth.models import User
 
 
 
@@ -59,3 +60,8 @@ class MasajistaCreateForm(forms.ModelForm):
             'documento': 'Documento',
             'telefono': 'Telefono',
         }
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name','last_name','email']

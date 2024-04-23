@@ -25,13 +25,17 @@ from .views import (
     detail_therapist_view,
     update_therapist_view,
     MasajistaDeleteView,
-    therapist_search_view
+    therapist_search_view,
+    user_login_view,
+    user_logout_view,
+    user_creation_view,
+    UserUpdateView
     )
 
 
 
 urlpatterns = [
-    path("", home_view),
+    path("", home_view, name="home"),
     path("detail-booking/<booking_id>", detail_booking_view, name="booking-detail"),
     path("list/", list_view, name= "bookings-list"),
     path("buscar/<nombre_de_usuario>", search_view),
@@ -57,5 +61,9 @@ urlpatterns = [
     path("masajista/detail/<therapist_id>", detail_therapist_view, name="masajista-detail"),
     path("masajista/update/<therapist_id>", update_therapist_view, name="masajista-update"),
     path("masajista/<int:pk>/delete", MasajistaDeleteView.as_view(), name="masajista-delete"),
-    path("buscar-masajista-con-formulario", therapist_search_view, name="masajista-search")
+    path("buscar-masajista-con-formulario", therapist_search_view, name="masajista-search"),
+    path("login", user_login_view, name="login"),
+    path("logout", user_logout_view, name="logout"),
+    path("user-create", user_creation_view, name="crear-usuario"),
+    path("edit-profile", UserUpdateView.as_view(), name="edit-profile")
 ]

@@ -19,11 +19,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
 
-def mi_func(request):
-    return HttpResponse("<h1>Bienvenidos a el Home del Consultorio!</h1>")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", mi_func),
-    path("bookings/", include("bookings.urls"))
+    path("", include("bookings.urls"))
 ]

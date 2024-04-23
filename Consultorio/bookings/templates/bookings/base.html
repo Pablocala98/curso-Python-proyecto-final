@@ -1,25 +1,34 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} Consultorio {% endblock title %}</title>
-    <!-- Bootstrap CSS CDN (Bootstrap 4 used as an example) -->
+    <!-- Bootstrap CSS CDN (Bootstrap 4) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/bookings">Reservas</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        {% if user.is_authenticated %}
+        <a class="navbar-brand" href="/bookings">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        {% endif %}
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+            <!-- La clase 'mr-auto' se utiliza para alinear los elementos de la lista a la izquierda -->
+            <ul class="navbar-nav mr-auto">
                 <!-- Dropdown para acciones de reservas -->
+                {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         Acciones de Reservas
                     </a>
                     <div class="dropdown-menu" aria-labelledby="reservasDropdown">
@@ -31,7 +40,8 @@
     
                 <!-- Dropdown para acciones del consultorio -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="consultorioDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="consultorioDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         Acciones del Consultorio
                     </a>
                     <div class="dropdown-menu" aria-labelledby="consultorioDropdown">
@@ -40,40 +50,71 @@
                         <a class="dropdown-item" href="{% url 'crear-consultorio-con-formulario' %}">Crear Consultorio</a>
                     </div>
                 </li>
+    
                 <!-- Dropdown para acciones de Vistas Basadas en Clases -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkSala" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkSala" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         Consultorios (VBC)
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkSala">
-                        <a class="dropdown-item" href="{% url 'vbc-consultorio-list'%}">Todas las Salas</a>
+                        <a class="dropdown-item" href="{% url 'vbc-consultorio-list' %}">Todas las Salas</a>
                         <a class="dropdown-item" href="{% url 'consultorio-buscar-con-formulario' %}">Buscar por Consultorio</a>
-                        <a class="dropdown-item" href="{% url 'vbc-consultorio-create'%}">Crear Sala</a>
+                        <a class="dropdown-item" href="{% url 'vbc-consultorio-create' %}">Crear Sala</a>
                     </div>
                 </li>
+    
                 <!-- Dropdown para Masajistas -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkSala" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkMasajista" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Masajistas
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkSala">
-                        <a class="dropdown-item" href="{% url 'masajista-list'%}">Todos los masajistas</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkMasajista">
+                        <a class="dropdown-item" href="{% url 'masajista-list' %}">Todos los masajistas</a>
                         <a class="dropdown-item" href="{% url 'masajista-search' %}">Buscar por Masajista</a>
                         <a class="dropdown-item" href="{% url 'masajista-create' %}">Crear Masajista</a>
                     </div>
                 </li>
+                {% endif %}
             </ul>
+    
+            <!-- El botón de inicio de sesión está alineado a la derecha con la clase 'ml-auto' en su elemento contenedor 'ul' -->
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link btn btn-danger" href="{% url 'logout' %}">Cerrar sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'edit-profile'%}">{{user.username}}</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary" href="{% url 'login' %}">Iniciar sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary" href="{% url 'crear-usuario' %}">Crear Usuario</a>
+                </li>
+                
+                {% endif %}
+            </ul>
+            
         </div>
+    
     </nav>
+    
+
     <!-- Main content -->
     <div class="container mt-4">
         {% block content %}
         <!-- Content goes here -->
         {% endblock content %}
     </div>
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
+
+    <!-- Bootstrap JS, Popper.js, y jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

@@ -4,13 +4,19 @@ from .models import Reserva, Consultorio, Masajista
 from .forms import ConsultorioCreateForm, ReservaSearchForm, ReservaCreateForm, ConsultorioSearchForm, MasajistaCreateForm, MasajistaSearchForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from django.contrib.auth import logout, login
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from .forms import UserEditForm
 
 # Create your views here.
 
 def home_view(request):
     return render(request, "bookings/home.html")
 
+@login_required
 def list_view(request):
     reservas = Reserva.objects.all() #con este Reserva.objects.all() nos trae todos los objetos reserva de la base de datos
     contexto_dict = {'reservas': reservas}
@@ -77,10 +83,11 @@ def create_booking_with_form_view(request):
             nueva_reserva.save()
             return detail_booking_view(request,nueva_reserva.id)
 
+@login_required
 def consulting_room_list_view(request):
     consultorio = Consultorio.objects.all() #con este Reserva.objects.all() nos trae todos los objetos reserva de la base de datos
     contexto_dict = {'consultorios': consultorio}
-    return render(request, "bookings/consulting_rooms_list.html", contexto_dict)
+    return render(request, "bookings/consulting-rooms-list.html", contexto_dict)
 
 def consulting_room_delete_view(request, consulting_room_id):
     consultorio_a_borrar = Consultorio.objects.filter(id=consulting_room_id).first()
@@ -132,27 +139,27 @@ def consulting_room_search_view(request):
             consultorio = Consultorio.objects.filter(nombre = nombre).all()
             contexto_dict = {'consultorios': consultorio}
             return render(request, "bookings/consulting_rooms_list.html", contexto_dict)
-class ConsultorioListView(ListView):
+class ConsultorioListView(LoginRequiredMixin,ListView):
     model = Consultorio
     template_name = "bookings/VBC/vbc-consultorio-list.html"
     context_object_name = "consultorios"
-class ConsultorioDetailView(DetailView):
+class ConsultorioDetailView(LoginRequiredMixin,DetailView):
     model = Consultorio
     template_name = "bookings/VBC/vbc-consultorio-detail.html"
     context_object_name = "consultorio"
 
-class ConsultorioCreateView(CreateView):
+class ConsultorioCreateView(LoginRequiredMixin, CreateView):
     model = Consultorio
     template_name = "bookings/VBC/vbc-consultorio-create.html"
     fields = ['nombre', 'disponible', 'capacidad', 'descripcion']
     success_url = reverse_lazy("vbc-consultorio-list")
 
-class ConsultorioDeleteView(DeleteView):
+class ConsultorioDeleteView(LoginRequiredMixin, DeleteView):
     model = Consultorio
     template_name = "bookings/VBC/vbc-consultorio-delete.html"
     success_url = reverse_lazy("vbc-consultorio-list")
 
-class ConsultorioUpdateView(UpdateView):
+class ConsultorioUpdateView(LoginRequiredMixin, UpdateView):
     model = Consultorio
     template_name = "bookings/VBC/vbc-consultorio-update.html"
     fields = ['nombre', 'disponible', 'capacidad', 'descripcion']
@@ -248,7 +255,7 @@ def update_therapist_view(request,therapist_id):
             masajista_a_editar.save()
             return redirect("masajista-detail", masajista_a_editar.id)
 
-class MasajistaDeleteView(DeleteView):
+class MasajistaDeleteView(LoginRequiredMixin, DeleteView):
     model = Masajista
     template_name = "bookings/therapist-delete.html"
     success_url = reverse_lazy("masajista-list")
@@ -264,3 +271,42 @@ def therapist_search_view(request):
             masajista = Masajista.objects.filter(nombre = nombre).all()
             contexto_dict = {'masajistas': masajista}
             return render(request, "bookings/therapist-list.html", contexto_dict)
+        
+
+def user_logout_view(request):
+    logout(request)
+    return redirect('login')
+
+def user_login_view(request):
+    if request.method == "GET":
+        form = AuthenticationForm()
+    elif request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.user_cache
+            if user is not None:
+                login(request,user)
+                return redirect('home')
+
+    return render(request, 'bookings/login.html', {'form':form})
+
+def user_creation_view(request):
+    if request.method == "GET":
+        form = UserCreationForm()
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("home")
+
+    return render(request, "bookings/create-user.html", {"form": form})
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UserEditForm
+    template_name = "bookings/form-edit-profile.html"
+    success_url = reverse_lazy("home")
+
+    def get_object(self):
+        return self.request.user
