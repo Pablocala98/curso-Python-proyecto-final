@@ -7,7 +7,8 @@
 Esta aplicación está desarrollada en Django y proporciona un sistema para gestionar consultorios, masajistas y reservas. Puedes agregar, editar, eliminar y visualizar reservas, masajistas y consultorios desde la interfaz de usuario.
 
 ## Características
-
+- **Inicio de sesion**: Creacion de usuario, login y logout.
+- **Restricciones de ingresos por URL**: Vistas restringidas a usuario no registrados.
 - **Consultorios**: Crear, editar, eliminar y visualizar consultorios con detalles como nombre, capacidad y disponibilidad.
 - **Masajistas**: Crear, editar, eliminar y visualizar masajistas con detalles como nombre, apellido, documento y teléfono.
 - **Reservas**: Crear, editar, eliminar y visualizar reservas, incluyendo la relación entre consultorios.
@@ -45,4 +46,10 @@ Sigue estos pasos para instalar y configurar la aplicación:
     ```
 
 7. Abre tu navegador y visita [http://localhost:8000/](http://localhost:8000/).
+
+8. Usuario Administrador:
+    username: admin
+    password: 123
+
+
 

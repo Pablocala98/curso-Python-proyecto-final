@@ -29,8 +29,10 @@
                     <td>{{ consultorio.capacidad }}</td>
                     <td>{{ consultorio.descripcion }}</td>
                     <td>
-                        <a href="{% url 'consultorio-update' consultorio.id %}" class="btn btn-primary btn-sm mr-2">Editar</a>
-                        <a href="{% url 'consultorio-delete' consultorio.id %}" class="btn btn-danger btn-sm mr-2">Eliminar</a>
+                        {% if user.is_authenticated and user.is_staff %}
+                            <a href="{% url 'consultorio-update' consultorio.id %}" class="btn btn-primary btn-sm mr-2">Editar</a>
+                            <a href="{% url 'consultorio-delete' consultorio.id %}" class="btn btn-danger btn-sm mr-2">Eliminar</a>
+                        {% endif %}
                         <a href="/bookings/detail-consulting-room/{{ consultorio.id }}" class="btn btn-primary btn-sm mr-2">Ver</a>
                     </td>
                 </tr>

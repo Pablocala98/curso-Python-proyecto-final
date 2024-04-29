@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Reserva, Consultorio, Masajista
-from .forms import ConsultorioCreateForm, ReservaSearchForm, ReservaCreateForm, ConsultorioSearchForm, MasajistaCreateForm, MasajistaSearchForm
+from .models import Reserva, Consultorio, Masajista, Avatar
+from .forms import ConsultorioCreateForm, ReservaSearchForm, ReservaCreateForm, ConsultorioSearchForm, MasajistaCreateForm, MasajistaSearchForm, AvatarCreateForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth import logout, login
@@ -136,9 +136,13 @@ def consulting_room_search_view(request):
         form = ConsultorioSearchForm(request.POST)
         if form.is_valid():
             nombre = form.cleaned_data['nombre']
-            consultorio = Consultorio.objects.filter(nombre = nombre).all()
+            descartar_no_disponibles = form.cleaned_data['disponible']
+            if descartar_no_disponibles:
+                consultorio = Consultorio.objects.filter(nombre__icontains = nombre, disponible = True).all()
+            else:
+                consultorio = Consultorio.objects.filter(nombre__icontains = nombre).all()
             contexto_dict = {'consultorios': consultorio}
-            return render(request, "bookings/consulting_rooms_list.html", contexto_dict)
+            return render(request, "bookings/consulting-rooms-list.html", contexto_dict)
 class ConsultorioListView(LoginRequiredMixin,ListView):
     model = Consultorio
     template_name = "bookings/VBC/vbc-consultorio-list.html"
@@ -301,7 +305,6 @@ def user_creation_view(request):
             return redirect("home")
 
     return render(request, "bookings/create-user.html", {"form": form})
-
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserEditForm
@@ -310,3 +313,24 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+def avatar_view(request):
+    if request.method == "GET":
+        contexto = {"form" : AvatarCreateForm()}
+    else:
+        form = AvatarCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.cleaned_data["image"]
+            avatar_existente = Avatar.objects.filter(user = request.user)
+            avatar_existente.delete()
+            nuevo_avatar = Avatar(image=image, user = request.user)
+            nuevo_avatar.save()
+            return redirect("home")
+        else:
+            contexto = {"form": form}
+    
+    return render(request, "bookings/avatar-create.html", context= contexto)
+
+def about_me_view(request):
+    return render(request, "bookings/about-me.html")

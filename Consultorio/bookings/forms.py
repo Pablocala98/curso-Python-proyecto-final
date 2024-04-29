@@ -1,5 +1,5 @@
 from django import forms
-from .models import Consultorio, Reserva, Masajista
+from .models import Consultorio, Reserva, Masajista, Avatar
 from django.contrib.auth.models import User
 
 
@@ -9,6 +9,7 @@ class ReservaSearchForm(forms.Form):
 
 class ConsultorioSearchForm(forms.Form):
     nombre = forms.CharField(max_length=50, required=True, label="Ingresar nombre de Consultorio")
+    disponible = forms.BooleanField(required=False, label= "Solo salas disponibles")
 
 class MasajistaSearchForm(forms.Form):
     nombre = forms.CharField(max_length=50, required=True, label="Ingresar nombre de Masajista")
@@ -65,3 +66,8 @@ class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name','last_name','email']
+
+class AvatarCreateForm(forms.ModelForm):
+    class Meta:
+        model = Avatar
+        fields = ['image']

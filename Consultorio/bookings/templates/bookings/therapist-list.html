@@ -31,8 +31,10 @@
                         <td>{{ masajista.documento }}</td>
                         <!-- Puedes agregar más columnas según lo necesites -->
                         <td>
+                            {% if user.is_authenticated and user.is_staff %}
                             <a href="{% url 'masajista-update' masajista.id %}" class="btn btn-primary btn-sm">Editar</a>
                             <a href="{% url 'masajista-delete' masajista.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                            {% endif %}
                             <a href="{% url 'masajista-detail' masajista.id %}" class="btn btn-primary btn-sm">Ver</a>
                         </td>
                     </tr>

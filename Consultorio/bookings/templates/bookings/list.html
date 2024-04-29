@@ -31,8 +31,10 @@
                     <td>{{ reserva.hora | date:"H:i" }}</td>
                     <td>{{ reserva.duracion }}</td>
                     <td>
+                        {% if user.is_authenticated and user.is_staff %}
                         <a href="{% url 'booking-update' reserva.id%}" class="btn btn-primary btn-sm">Editar</a>
                         <a href="{% url 'booking-delete' reserva.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        {% endif%}
                         <a href="/bookings/detail-booking/{{ reserva.id }}" class="btn btn-primary btn-sm">Ver</a>
                     </td>
                 </tr>

@@ -9,13 +9,16 @@
     <title>{% block title %} Consultorio {% endblock title %}</title>
     <!-- Bootstrap CSS CDN (Bootstrap 4) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         {% if user.is_authenticated %}
-        <a class="navbar-brand" href="/bookings">Home</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -32,7 +35,9 @@
                         Acciones de Reservas
                     </a>
                     <div class="dropdown-menu" aria-labelledby="reservasDropdown">
+                        {% if user.is_authenticated and user.is_staff %}
                         <a class="dropdown-item" href="{% url 'bookings-list' %}">Todas las Reservas</a>
+                        {% endif %}
                         <a class="dropdown-item" href="{% url 'buscar-reserva-con-formulario' %}">Buscar por Usuario</a>
                         <a class="dropdown-item" href="{% url 'crear-reserva-con-formulario' %}">Crear Reserva</a>
                     </div>
@@ -47,7 +52,9 @@
                     <div class="dropdown-menu" aria-labelledby="consultorioDropdown">
                         <a class="dropdown-item" href="{% url 'consultorio-list' %}">Todos los Consultorios</a>
                         <a class="dropdown-item" href="{% url 'consultorio-buscar-con-formulario' %}">Buscar por Consultorio</a>
+                        {% if user.is_authenticated and user.is_staff %}
                         <a class="dropdown-item" href="{% url 'crear-consultorio-con-formulario' %}">Crear Consultorio</a>
+                        {% endif %}
                     </div>
                 </li>
     
@@ -58,9 +65,11 @@
                         Consultorios (VBC)
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkSala">
-                        <a class="dropdown-item" href="{% url 'vbc-consultorio-list' %}">Todas las Salas</a>
+                        <a class="dropdown-item" href="{% url 'vbc-consultorio-list' %}">Todas los Consultorios</a>
                         <a class="dropdown-item" href="{% url 'consultorio-buscar-con-formulario' %}">Buscar por Consultorio</a>
-                        <a class="dropdown-item" href="{% url 'vbc-consultorio-create' %}">Crear Sala</a>
+                        {% if user.is_authenticated and user.is_staff %}
+                        <a class="dropdown-item" href="{% url 'vbc-consultorio-create' %}">Crear Consultorio</a>
+                        {% endif %}
                     </div>
                 </li>
     
@@ -73,7 +82,9 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkMasajista">
                         <a class="dropdown-item" href="{% url 'masajista-list' %}">Todos los masajistas</a>
                         <a class="dropdown-item" href="{% url 'masajista-search' %}">Buscar por Masajista</a>
+                        {% if user.is_authenticated and user.is_staff %}
                         <a class="dropdown-item" href="{% url 'masajista-create' %}">Crear Masajista</a>
+                        {% endif %}
                     </div>
                 </li>
                 {% endif %}
@@ -87,6 +98,14 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'edit-profile'%}">{{user.username}}</a>
+                </li>
+                <li class="nav-item">
+                    {% if user.avatar.image %}
+                    <img src="{{ user.avatar.image.url }}" alt="Avatar" style="height: 40px; width: 40px; border-radius: 50%;">
+                    {% endif %}
+                    <li class="nav-item">
+                        <a href="{% url 'avatar-edit' %}" class="nav-link">Agregar Avatar</a>
+                    </li>
                 </li>
                 {% else %}
                 <li class="nav-item">
@@ -102,7 +121,6 @@
         </div>
     
     </nav>
-    
 
     <!-- Main content -->
     <div class="container mt-4">
@@ -111,10 +129,35 @@
         {% endblock content %}
     </div>
 
+    <!-- Footer -->
+    <footer class="mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-4 text-md-left">
+                    <a href="{% url 'about-me' %}">About Me</a>
+                </div>
+                
+                <div class="col-md-4">
+                    <p>Follow Me</p>
+                    <!-- Add your social media icons and links here -->
+                    <a href="https://www.linkedin.com/in/pablo-cala-152a46202/" target="_blank" class="footer-icons"><i class="fab fa-linkedin fa-3x"></i></a>
+                    <a href="https://github.com/Pablocala98" target="_blank" class="footer-icons"><i class="fab fa-github fa-3x"></i></a>
+                </div>
+                <div class="col-md-4 text-md-right">
+                    <p>Todos los derechos reservados</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    
+
     <!-- Bootstrap JS, Popper.js, y jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    
 </body>
 
 </html>

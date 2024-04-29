@@ -29,7 +29,9 @@ from .views import (
     user_login_view,
     user_logout_view,
     user_creation_view,
-    UserUpdateView
+    UserUpdateView,
+    avatar_view,
+    about_me_view
     )
 
 
@@ -65,5 +67,7 @@ urlpatterns = [
     path("login", user_login_view, name="login"),
     path("logout", user_logout_view, name="logout"),
     path("user-create", user_creation_view, name="crear-usuario"),
-    path("edit-profile", UserUpdateView.as_view(), name="edit-profile")
+    path("edit-profile", UserUpdateView.as_view(), name="edit-profile"),
+    path("avatar/edit/", avatar_view, name="avatar-edit"),
+    path("about-me", about_me_view, name="about-me")
 ]

@@ -1,0 +1,28 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}About Me{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Mi Historia</h2>
+            <p> Mi nombre es Pablo Cala, tengo 25 años y desde el año 2021 inicié mi recorrido en la carrera de Analista en Sistemas en la Escuela Da Vinci. Me apasiona la programación y aspiro a dedicarme plenamente a este campo en el futuro. Durante mi formación, he tenido la invaluable oportunidad de interactuar con una amplia gama de lenguajes de programación, incluyendo Java, JavaScript, PHP, SQL, C#, así como con diversos frameworks como .NET.
+                El desarrollo de esta página surge de mi inquietud por mejorar la facilidad en la creación de reservas y la gestión de masajistas y consultorios en un entorno de masajes quiroprácticos. Con un enfoque centrado en la eficiencia y la experiencia del usuario, mi objetivo es proporcionar soluciones innovadoras que optimicen los procesos de reserva y administración, contribuyendo así al éxito y crecimiento de este tipo de establecimientos.
+            </p>
+            <p> Esta página web ha sido creada utilizando el poderoso framework Django, un marco de trabajo de desarrollo web de alto nivel que fomenta la construcción rápida y segura de aplicaciones web.</p>
+            <p> Uno de los pilares fundamentales de este proyecto ha sido la elaboración de modelos de datos que representan de manera precisa la estructura y relaciones de la información en la aplicación. Estos modelos fueron diseñados con el fin de optimizar la gestión de reservas, masajistas y consultorios, asegurando una experiencia fluida y eficiente para los usuarios.</p>
+            <p> Además, se han desarrollado vistas dinámicas que controlan la lógica de la aplicación, permitiendo la interacción entre el usuario y la base de datos. Estas vistas están diseñadas para responder a las solicitudes del cliente de manera eficiente y presentar la información de manera clara y organizada. Cada vista ha sido cuidadosamente diseñada y optimizada para garantizar un rendimiento óptimo y una experiencia de usuario fluida.</p>
+            <p> Los templates han desempeñado un papel crucial en la presentación de la información al usuario final. Mediante el uso de plantillas HTML y el sistema de plantillas de Django, hemos creado interfaces de usuario atractivas y funcionales que se adaptan a las necesidades específicas de la aplicación. Estas plantillas han sido diseñadas con un enfoque en la usabilidad y accesibilidad, asegurando una experiencia de usuario intuitiva y satisfactoria.</p>
+            <p> Además de las vistas y templates, se han implementado formularios personalizados para facilitar la entrada de datos por parte de los usuarios. Estos formularios han sido diseñados para validar y procesar la información de manera segura y eficiente, asegurando la integridad de los datos y la precisión en las operaciones realizadas en la aplicación.</p>
+            <p> En resumen, la creación de esta página web ha sido un proceso complejo que ha involucrado una cuidadosa planificación, diseño e implementación de diversos componentes, incluyendo modelos, vistas, templates, formularios, entre otros. El uso de Django como framework de desarrollo ha sido fundamental para el éxito de este proyecto, proporcionando las herramientas y la estructura necesarias para crear una aplicación web</p>
+        </div>
+        <div class="col-md-6">
+            <h2>Este soy Yo</h2>
+            {% load static %}
+            <img src="{% static 'yo.jpg'%}" alt="Mi Imagen" class="img-fluid">
+        </div>        
+    </div>
+</div>
+{% endblock %}

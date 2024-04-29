@@ -14,6 +14,6 @@
             <p class="card-text">Duración de la reserva: {{ reserva.duracion }} horas</p>
         </div>
     </div>
-    <a href="/bookings/list" class="btn btn-secondary">Volver al listado de reservas</a>
+    <a href="{% url 'bookings-list' %}" class="btn btn-secondary">Volver al listado de reservas</a>
 </section>
 {% endblock %}
