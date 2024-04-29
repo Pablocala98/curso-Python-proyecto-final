@@ -45,7 +45,7 @@ def search_booking_with_form_view(request):
         form = ReservaSearchForm(request.POST)
         if form.is_valid():
             nombre_de_usuario = form.cleaned_data['nombre_de_usuario']
-            reservas_del_usuario = Reserva.objects.filter(nombre_de_usuario = nombre_de_usuario).all()
+            reservas_del_usuario = Reserva.objects.filter(nombre_de_usuario__icontains = nombre_de_usuario).all()
             contexto_dict = {'reservas': reservas_del_usuario}
             return render(request, "bookings/list.html", contexto_dict)
         
